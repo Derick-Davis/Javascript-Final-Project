@@ -4,6 +4,8 @@ exports.index = async (req, res, next) => {
 
   try {
     const movies = await Movie.find();
+        const user = await User.findById(req.user._id);
+
     res.status(200).json(movies);
       }
       catch(error)
@@ -24,10 +26,10 @@ exports.show = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-
   try {
-    const {_id, title, director, rating } = req.body;
-    console.log(req.body);
+    const {title, director, rating } = req.body;
+
+    const user = await User.findById(req.user._id);
 
     const mv = await Movie.create({
       title,
@@ -57,7 +59,7 @@ exports.update = async (req, res, next) => {
   }
 }
 
-exports.delete = async (req, res, next) => {
+exports.destroy = async (req, res, next) => {
   try {
     const { _id } = req.body;
     await Movie.findOneAndDelete({ _id: _id });

@@ -27,6 +27,7 @@ const Movies = () => {
         });
       });
     }, [globalStore, setNotification]);
+    
     return (
         <>
           <Header title="Movies"/>

@@ -9,11 +9,10 @@ import { Redirect, useParams} from 'react-router-dom';
 const MovieForm = ({endpoint}) => { 
 
 const [inputs, setInputs] = useState; 
-const [redirect, setRedirect] = useState(false);
+
 const {setNotification} = useContext(NotificationContext);
 const {user} = useContext(UserContext);
 const {globalStore} = useContext(GlobalStoreContext);
-
 
 const handleChange = event => {
     event.persist();
@@ -28,8 +27,6 @@ const {id} = useParams();
 
 const handleSubmit = event => {
     event.preventDefault();
-    console.log(inputs);
-
      
     Axios.post(`${globalStore.REACT_APP_ENDPOINT}/${endpoint}`,
     {
@@ -42,7 +39,7 @@ const handleSubmit = event => {
             });
         }
 
-        setRedirect(true);
+        return(<Redirect to= "/movies"/>);
     })
     .catch((error) => {
         setNotification({
@@ -56,12 +53,6 @@ const handleSubmit = event => {
         <Form onSubmit = {handleSubmit}>
             <input onChange = {handleChange} name ="movie" placeholder="movie" defaultValue = {inputs.movie} />
             <input onChange = {handleChange} name="director" placeholder="director" defaultValue = {inputs.director}/>
-            <input  onChange={handleChange} 
-                name="rating" 
-                defaultValue={inputs.rating}
-                min={1}
-                max={5}
-                step={1}/>
             <button type="submit">Submit</button>
         </Form>
     );
